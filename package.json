@@ -1,0 +1,57 @@
+{
+  "name": "h5-vue",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "vue-cli-service serve --mode development",
+    "edu": "vue-cli-service build --mode staging.local",
+    "test": "vue-cli-service build --mode test",
+    "release": "vue-cli-service build --mode staging",
+    "production": "vue-cli-service build --mode production"
+  },
+  "dependencies": {
+    "better-scroll": "^1.14.1",
+    "exif-js": "^2.3.0",
+    "vue": "^2.5.17"
+  },
+  "devDependencies": {
+    "moment": "^2.24.0",
+    "node-sass": "^4.11.0",
+    "sass-loader": "^7.1.0",
+    "uglifyjs-webpack-plugin": "^2.1.0",
+    "html-webpack-plugin": "^3.2.0",
+    "html-webpack-plugin-crossorigin": "^1.0.8",
+    "@vue/cli-plugin-babel": "^3.0.0",
+    "@vue/cli-plugin-eslint": "^3.0.0",
+    "@vue/cli-service": "^3.0.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.8.0",
+    "eslint-plugin-vue": "^5.0.0-0",
+    "vue-template-compiler": "^2.5.17"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "rules": {},
+    "parserOptions": {
+      "parser": "babel-eslint"
+    }
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "not ie <= 12",
+    "Android >= 4.4",
+    "ios >= 6"
+  ]
+}
