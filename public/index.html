@@ -14,14 +14,13 @@
 	  <meta name="apple-mobile-web-app-capable" content="yes">
 	  <meta name="apple-mobile-web-app-status-bar-style" content="white">
 	  <meta name="theme-color" content="#ff6900">
-    <link rel="stylesheet" href="<%=htmlWebpackPlugin.options.staticPath%>/static/css/main.css?v=<%=htmlWebpackPlugin.options.getTime%>">
-	  <link rel="apple-touch-icon-precomposed" href="<%= htmlWebpackPlugin.options.staticPath %>/static/images/touch-icon-iphone.png" />
-	  <link rel="apple-touch-startup-image" href="<%= htmlWebpackPlugin.options.staticPath %>/static/images/touch-icon-iphone.png" />
-	  <link href="<%= htmlWebpackPlugin.options.staticPath %>/static/images/touch-icon-iphone.png" rel="Shortcut Icon" type="image/x-icon" />
+	  <link rel="apple-touch-icon-precomposed" href="<%=htmlWebpackPlugin.options.staticPath%>/static/images/touch-icon-iphone.png" />
+	  <link rel="apple-touch-startup-image" href="<%=htmlWebpackPlugin.options.staticPath%>/static/images/touch-icon-iphone.png" />
+	  <link href="<%=htmlWebpackPlugin.options.staticPath%>/static/images/touch-icon-iphone.png" rel="Shortcut Icon" type="image/x-icon" />
 	  <meta name="viewport" content="width=device-width,initial-scale=1, minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> <meta data-n-head="true" data-hid="description" name="description" content="票牛网秉持【买得到,买得放心,买得实惠】的票务服务理念,票源充足,满足您对【热门票】和【折扣票】的需求,告别抢票烦恼。票牛北京站为您提供最新北京演出信息,包括演唱会,音乐会,话剧歌剧,体育赛事,相声小品,舞蹈芭蕾,儿童亲子活动等。"/><meta data-n-head="true" data-hid="keywords" name="keywords" content="北京演出门票,北京演唱会门票,北京音乐会门票,北京体育赛事门票,北京话剧门票"/>
-    <title data-n-head="true">北京演唱会,话剧，体育赛事【订票】-票牛网</title>
-	  <script type="text/javascript">
+    <title>北京演唱会,话剧，体育赛事【订票】-票牛网</title>
+    <script type="text/javascript">
       (function (win,doc) {
         var flex = function flex() {
           var ua = navigator.userAgent;
@@ -56,44 +55,6 @@
         };
         flex();
       })(window,document);
-	  </script>
-  </head>
-  <body>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
-    <script type="text/javascript">
-      if (typeof Object.assign != 'function') {
-        // Must be writable: true, enumerable: false, configurable: true
-        Object.defineProperty(Object, "assign", {
-          value: function assign(target, varArgs) { // .length of function is 2
-            'use strict';
-            if (target == null) { // TypeError if undefined or null
-              throw new TypeError('Cannot convert undefined or null to object');
-            }
-
-            var to = Object(target);
-
-            for (var index = 1; index < arguments.length; index++) {
-              var nextSource = arguments[index];
-
-              if (nextSource != null) { // Skip over if undefined or null
-                for (var nextKey in nextSource) {
-                  // Avoid bugs when hasOwnProperty is shadowed
-                  if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
-                    to[nextKey] = nextSource[nextKey];
-                  }
-                }
-              }
-            }
-            return to;
-          },
-          writable: true,
-          configurable: true
-        });
-      }
-      if ('serviceWorker' in navigator && location.protocol == 'https:') {
-        navigator.serviceWorker.register('/serviceWorker.js?v=<%=htmlWebpackPlugin.options.getTime%>')
-      }
     </script>
     <script type="text/javascript">
       function isLocalStorageSupported() {
@@ -115,7 +76,7 @@
       };
       function writeLizard () {
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'https://shop.niuhuagong.com/static/lizard/index.js', false);
+        xhr.open('GET', '<%=htmlWebpackPlugin.options.staticPath%>/static/lizard/index.js', false);
         xhr.setRequestHeader("If-Modified-Since","0");
         xhr.setRequestHeader("Cache-Control","no-cache");
         xhr.onreadystatechange = () => {
@@ -166,8 +127,22 @@
         }
       };
       loadLizardScript();
+      if ('serviceWorker' in navigator && location.protocol == 'https:') {
+        navigator.serviceWorker.register('/serviceWorker.js?v=<%=htmlWebpackPlugin.options.getTime%>')
+      }
       window.__NUXT__ = <%=htmlWebpackPlugin.options.__NUXT__%>;
-    </script>   
+      window.config = {
+        "hostPath": "<%=htmlWebpackPlugin.options.hostPath%>",
+        "staticPath": "<%=htmlWebpackPlugin.options.staticPath%>",
+        "getTime": <%=htmlWebpackPlugin.options.getTime%>
+      }
+    </script> 
+    <link rel="stylesheet" href="<%=process.env.VUE_APP_STATIC_PATH%>/static/css/main.css?v=1.0.0">
+  </head>
+  <body>
+    <div id="app"></div>
+    <!-- built files will be auto injected --> 
+    <script type="text/javascript" src="<%=htmlWebpackPlugin.options.staticPath%>/static/??polyfill/index.js?v=1.0.0,utils/index.js?v=1.0.0,ajax/index.js?v=1.0.0,store/index.js?v=1.0.0,validate/index.js?v=1.0.0"></script>
     <!-- <script type="text/javascript" src="<%= htmlWebpackPlugin.options.staticPath %>/static/vconsole/index.js"></script>
     <script>
       var vConsole = new VConsole()

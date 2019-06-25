@@ -1,7 +1,6 @@
 import ajax from '@/widget/ajax'
 import store from '@/widget/store'
 import utils from '@/widget/utils'
-import config from '@/config/index'
 
 function clearStorage () {
   const currentTime = new Date().getTime()
@@ -35,7 +34,6 @@ export default function request (url,{
   ignoreLogin = false
 }){
 
-  const ut = utils.getUserToken()
   const errorCode = 99
   const options = {
     type,
@@ -54,7 +52,6 @@ export default function request (url,{
 
   if (dataType !== 'text') {
     options.data = Object.assign({
-      ut,
       platform: config.platform,
       companyId: config.companyId,
       platformId: config.platformId
@@ -65,9 +62,6 @@ export default function request (url,{
   }
   let optionData = data
 
-  if (utils.loggedIn()) {
-    options.headers.ut = ut
-  }
   if (headers &&
     headers['Content-Type'] == 'application/json'
   ) {

@@ -1,4 +1,3 @@
-
 const price = (value) => {
   if (!value || isNaN(value)) {
     value = '0'

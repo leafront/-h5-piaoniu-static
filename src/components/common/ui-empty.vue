@@ -7,8 +7,6 @@
 
 <script type="text/javascript">
 
-  import config from '@/config/index'
-
   export default {  
     props: {
       pic: {

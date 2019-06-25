@@ -33,7 +33,7 @@
         <div class="home-operating-item" v-for="item in operating">
           <div class="operating-item-txt">
             <h2 class="operating-item-title" :style="{'backgroundImage': 'url('+item.title+')'}"></h2>
-            <p class="c6">{{item.subTitle}}</p>
+            <p>{{item.subTitle}}</p>
           </div>  
           <div class="operating-item-pic pic-lazyLoad" >
             <img :src="item.poster" @load="loadImg($event)"/>
@@ -41,7 +41,7 @@
         </div>   
       </div> 
       <div class="home-server">
-        <h4 class="c6">服务保障</h4>
+        <h4>服务保障</h4>
         <div class="home-server-item">
           <span class="c9">无票赔付</span>
           <span class="c9">出票保真</span>
@@ -57,7 +57,7 @@
           </div>  
         </div>  
         <div class="home-ticket" id="hot-ticket-scroll">
-          <LazyLoad :list="hotTicket" :options="{ele:'pic-lazyLoad', scrollEle: 'hot-ticket-scroll', horizontalEle: 'hot-ticket-wrapper'}">
+          <LazyLoad :list="hotTicket" :options="{ele:'pic-lazyLoad', scrollEle: 'hot-ticket-scroll', render: 'server',horizontalEle: 'hot-ticket-wrapper'}">
             <div class="home-ticket-wrapper" id="hot-ticket-wrapper">
               <div class="home-ticket-item" v-for="item in hotTicket">
                 <div class="home-ticker-pic pic-lazyLoad"  :data-src="item.poster"></div>
@@ -84,7 +84,7 @@
           </div>  
         </div> 
         <div class="home-ticket" id="discount-ticket-scroll"">
-          <LazyLoad :list="discountTicket" :options="{ele:'pic-lazyLoad', scrollEle: 'discount-ticket-scroll', horizontalEle: 'discount-ticket-wrapper'}">
+          <LazyLoad :list="discountTicket" :options="{ele:'pic-lazyLoad', scrollEle: 'discount-ticket-scroll', render: 'server', horizontalEle: 'discount-ticket-wrapper'}">
             <div class="home-ticket-wrapper" id="discount-ticket-wrapper">
               <div class="home-ticket-item" v-for="item in discountTicket">
                 <div class="home-ticker-pic pic-lazyLoad" :data-src="item.poster"></div>  
@@ -111,18 +111,34 @@
         <p class="font">更多精彩内容待你发现</p>
         <div class="ui-right-arrow"></div>
       </div> 
-      <div class="home-guess-like">
+      <div class="home-guess-like" id="guress-like-scroll">
         <div class="home-guess-like-title">
           <h3>猜你喜欢</h3>
         </div>
-        <div class="home-guress-list">
-          <div class="home-guress-item">
-            <div class="home-guress-item-pic">
+        <LazyLoad :list="guessLikeList" :options="{ele:'pic-lazyLoad', scrollEle: 'guress-like-scroll'}">
+          <div class="home-guress-list">
+            <div class="home-guress-item" v-for="item in guessLikeList">
+              <div class="home-guress-item-pic pic-lazyLoad" :data-src="item.recommendContent.poster"></div>  
+              <div class="home-guress-item-info ui-bottom-line">
+                <h3 class="c3 font-b ui-ellipsis">[上海]{{item.recommendContent.properName}}</h3>
+                <div class="home-guress-item-times c9 ui-ellipsis">
+                  <span>{{item.recommendContent.timeRange}}</span>
+                  <strong>|</strong>
+                  <span>{{item.recommendContent.venueName}}</span>
+                </div>
+                <div class="home-guress-item-score">
+                  <span class="c9">{{item.recommendContent.rank ? '评分' : '暂无评分'}}</span><strong>{{item.recommendContent.rank}}</strong>
+                </div> 
+                <div class="home-gress-item-price">
+                  <strong>{{item.recommendContent.lowPrice}}</strong><span class="c9">元起</span>
+                </div>
+                <div class="home-gress-item-des">
+                  <p class="c9">{{item.recommendContent.desc}}</p>
+                </div>  
+              </div>  
             </div>  
-            <div class="home-guress-item-info">
-            </div>  
-          </div>  
-        </div>  
+          </div>
+        </LazyLoad>    
       </div>    
     </div>   
   </div>
@@ -136,19 +152,51 @@
       height: 1.8rem;
     }
   }
+  .home-gress-item-des{
+    margin-top: .2rem;
+    padding: .18rem 0;
+    border-top: .01rem solid #e0e0e0;
+  }
   .home-guress-item{
     display: flex;
+    justify-content: space-between;
+    &:last-child{
+      .home-guress-item-info{
+        border-bottom: 0;
+      }
+    }
   }
   .home-guress-item-pic{
     width: 1.5rem;
     height: 2rem;
-    background: red;
-    margin-right: .34rem;
   }
   .home-guress-item-info{
-    flex: 1;
-    height: 2rem;
-    background: green;
+    width: 5.06rem;
+    h3{
+      font-weight: 600;
+    }
+  }
+  .home-gress-item-price{
+    strong{
+      font-size: .36rem;
+      color: #ff2661;
+      padding-right: .08rem;
+    }
+  }
+  .home-guress-item-times{
+    padding-top: .18rem;
+    strong{
+      padding: 0 .1rem;
+    }
+  }
+  .home-guress-item-score{
+    padding-top: .12rem;
+    padding-bottom: .12rem;
+    strong{
+      color: #ffb02e;
+      font-weight: 700;
+      padding-left: .1rem;
+    }
   }
   .home-guess-like-title{
     h3{
@@ -157,9 +205,12 @@
     }
   }
   .home-guess-like{
-    padding: .68rem .3rem;
+    padding: .68rem .3rem .3rem;
   }
   .home-guress-list{
+    
+  }
+  .home-guress-item{
     padding-top: .3rem;
   }
   .home-advert-more{
@@ -420,6 +471,7 @@
         discountTicket,
         pageView: true,
         httpsImg: filter.httpsImg,
+        guessLikeList: []
       }
     },
     components: {
@@ -439,7 +491,9 @@
             pageSize: 10
           }
         }).then((result) => {
-          console.log(result)
+          if (result){
+            this.guessLikeList = result.data
+          }
         })
       }
     },

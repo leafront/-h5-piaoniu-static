@@ -32,8 +32,5 @@ getFileName=$(cat "${filepath}/serviceWorker.txt")
 sed -i '' "s:CONFIG:${getFileName}:g" ${filepath}/target/serviceWorker.js
 time=$(date "+%Y%m%d%H%M")
 sed -i '' "s:CACHE_VERSION:${time}:g" ${filepath}/target/serviceWorker.js
-cp target/server.html target/index.html
-empty=''
-sed -i '' "s:window.__NUXT__ = <%-JSON.stringify(data)%>;:${empty}:g" ${filepath}/target/index.html
 
 

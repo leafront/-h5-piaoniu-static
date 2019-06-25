@@ -16,11 +16,16 @@ module.exports = {
     config.externals = {
       "vue": "Vue",
       "vuex": "Vuex",
-      "vue-router": "VueRouter"
+      "vue-router": "VueRouter",
+      "@/widget/utils": "utils",
+      "@/widget/ajax": "ajax",
+      "@/widget/validate": "validate",
+      "@/widget/store": "store"
     }
     config.plugins.push(new HtmlWebpackPlugin({
       template: 'public/index.html',
-      filename: path.resolve(__dirname, 'target/server.html'),
+      filename: path.resolve(__dirname, 'target/index.html'),
+      hostPath: process.env.VUE_APP_HOST_PATH,
       staticPath: process.env.VUE_APP_STATIC_PATH,
       __NUXT__: "<%-JSON.stringify(data)%>",
       getTime: new Date().getTime(),
@@ -46,7 +51,7 @@ module.exports = {
           warnings: false,
           compress: {
             drop_debugger: true,
-            drop_console: false,
+            drop_console: true,
           },
         },
         sourceMap: false,
@@ -78,7 +83,6 @@ module.exports = {
     https: false,
     hotOnly: false,
     open: false, //配置自动启动浏览器
-    disableHostCheck: true,
     proxy: {
       '/api': {
         target: 'https://m.piaoniu.com',

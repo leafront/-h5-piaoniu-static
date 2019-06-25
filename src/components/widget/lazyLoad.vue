@@ -16,6 +16,7 @@
         ticking: false,
         timer: null,
         default: {
+          render: 'client',
           scrollEle: 'appView',
           ele:'pic-lazyLoad',
           horizontalEle: null,
@@ -32,11 +33,23 @@
     created () {
       Object.assign(this.default, this.options)
     },
+    watch: {
+      list () {
+        if (this.default.render == 'client') {
+          this.appView = document.getElementById(this.default.scrollEle)
+          setTimeout(() => {
+            this.startLoad()
+          })
+        }
+      }
+    },
     mounted () {
-      this.appView = document.getElementById(this.default.scrollEle)
-      this.$nextTick(() => {
-        this.startLoad()
-      })
+      if (this.default.render == 'server') {
+        this.appView = document.getElementById(this.default.scrollEle)
+        this.$nextTick(() => {
+          this.startLoad()
+        })
+      }
     },
     methods: {
       /**
@@ -83,9 +96,9 @@
       startLoad (){
         const horizontalEle = this.default.horizontalEle
         if (horizontalEle) {
-          document.getElementById(this.default.horizontalEle).addEventListener('scroll',this.scrollImg, utils.isPassive() ? {passive: true} : false)
+          document.getElementById(this.default.horizontalEle).addEventListener('scroll', this.scrollImg, utils.isPassive() ? {passive: true} : false)
         }  
-        window.addEventListener('scroll',this.scrollImg, utils.isPassive() ? {passive: true} : false)
+        window.addEventListener('scroll', this.scrollImg, utils.isPassive() ? {passive: true} : false)
         this.scrollLoad()
       },
       /**
@@ -100,11 +113,13 @@
           const img = new Image()
           img.src = imgUrl
           img.addEventListener('load', () => {
-            el.style.backgroundImage = 'url('+imgUrl+')'
-            el.style.backgroundSize = '100% auto'
-            delete el.dataset.src
-            el.dataset.LazyLoadImgState = 'success'
-            el.classList.add('successImg')
+            setTimeout(() => {
+              el.style.backgroundImage = 'url('+imgUrl+')'
+              el.style.backgroundSize = '100% auto'
+              delete el.dataset.src
+              el.dataset.LazyLoadImgState = 'success'
+              el.classList.add('successImg')
+            }, 310)
           }, false)
 
           img.addEventListener('error', () => {

@@ -8,7 +8,6 @@ import Toast from '@/components/toast'
 import Loading from '@/components/loading'
 import PageLoading from '@/components/pageLoading'
 import showModal from '@/components/showModal'
-import { sendTracker } from '@/widget/tracker'
 
 Vue.use(showModal)
 Vue.use(Toast)
