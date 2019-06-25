@@ -111,7 +111,7 @@
         <p class="font">更多精彩内容待你发现</p>
         <div class="ui-right-arrow"></div>
       </div> 
-      <div class="home-guess-like" id="guress-like-scroll">
+      <div class="home-guess-like" id="guress-like-scroll" v-if="guessLikeList && guessLikeList.length">
         <div class="home-guess-like-title">
           <h3>猜你喜欢</h3>
         </div>
@@ -143,6 +143,57 @@
     </div>   
   </div>
 </template>
+
+<script type="text/javascript">
+
+import DownloadApp from '@/components/common/downloadApp'
+import Banner from '@/components/common/banner'
+import filter from '@/filters'
+import LazyLoad from '@/components/widget/lazyLoad'
+import * as Model from '@/model/index'
+const { navList, bannerList, operating, hotTicket, discountTicket } = window.__NUXT__
+
+export default {
+  data () {
+    return {
+      navList,
+      bannerList,
+      operating,
+      hotTicket,
+      discountTicket,
+      pageView: true,
+      httpsImg: filter.httpsImg,
+      guessLikeList: []
+    }
+  },
+  components: {
+    DownloadApp,
+    Banner,
+    LazyLoad
+  },
+  methods: {
+    loadImg (event) {
+      event.currentTarget.style.backgroundColor = '#fff'
+    },
+    getRecommendsList () {
+      Model.getRecommendsList({
+        type: 'GET',
+        data: {
+          pageIndex: 1,
+          pageSize: 10
+        }
+      }).then((result) => {
+        if (result){
+          this.guessLikeList = result.data
+        }
+      })
+    }
+  },
+  created () {
+    this.getRecommendsList()
+  }
+}
+</script>
 
 <style  lang="scss">
   .home-advert{
@@ -452,53 +503,3 @@
     }
   }
 </style>
-
-<script type="text/javascript">
-
-  import DownloadApp from '@/components/common/downloadApp'
-  import Banner from '@/components/common/banner'
-  import filter from '@/filters'
-  import LazyLoad from '@/components/widget/lazyLoad'
-  import * as Model from '@/model/index'
-  const { navList, bannerList, operating, hotTicket, discountTicket } = window.__NUXT__
-  export default {
-    data () {
-      return {
-        navList,
-        bannerList,
-        operating,
-        hotTicket,
-        discountTicket,
-        pageView: true,
-        httpsImg: filter.httpsImg,
-        guessLikeList: []
-      }
-    },
-    components: {
-      DownloadApp,
-      Banner,
-      LazyLoad
-    },
-    methods: {
-      loadImg (event) {
-        event.currentTarget.style.backgroundColor = '#fff'
-      },
-      getRecommendsList () {
-        Model.getRecommendsList({
-          type: 'GET',
-          data: {
-            pageIndex: 1,
-            pageSize: 10
-          }
-        }).then((result) => {
-          if (result){
-            this.guessLikeList = result.data
-          }
-        })
-      }
-    },
-    created () {
-      this.getRecommendsList()
-    }
-  }
-</script>
