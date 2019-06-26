@@ -1,8 +1,6 @@
 <template>
   <div class="pageView">
-    <div class="scroll-view">
-    </div>  
-    <div class="scroll-view-wrapper-server">
+    <div class="scroll-view-wrapper">
       <DownloadApp></DownloadApp>
       <div class="top-bar">
         <div class="top-bar-city">
@@ -111,13 +109,13 @@
         <p class="font">更多精彩内容待你发现</p>
         <div class="ui-right-arrow"></div>
       </div> 
-      <div class="home-guess-like" id="guress-like-scroll" v-if="guessLikeList && guessLikeList.length">
+      <div class="home-guess-like" id="guress-like-scroll">
         <div class="home-guess-like-title">
           <h3>猜你喜欢</h3>
         </div>
-        <LazyLoad :list="guessLikeList" :options="{ele:'pic-lazyLoad', scrollEle: 'guress-like-scroll'}">
+        <LazyLoad :list="list" :options="{ele:'pic-lazyLoad', scrollEle: 'guress-like-scroll'}">
           <div class="home-guress-list">
-            <div class="home-guress-item" v-for="item in guessLikeList">
+            <div class="home-guress-item" v-for="item in list" v-if="list && list.length">
               <div class="home-guress-item-pic pic-lazyLoad" :data-src="item.recommendContent.poster"></div>  
               <div class="home-guress-item-info ui-bottom-line">
                 <h3 class="c3 font-b ui-ellipsis">[上海]{{item.recommendContent.properName}}</h3>
@@ -138,7 +136,10 @@
               </div>  
             </div>  
           </div>
-        </LazyLoad>    
+        </LazyLoad> 
+        <div class="home-pageLoading" v-show="showLoading">
+          <PageLoading :showLoading="showLoading"></PageLoading>   
+        </div>  
       </div>    
     </div>   
   </div>
@@ -146,8 +147,8 @@
 
 <script type="text/javascript">
 
-import DownloadApp from '@/components/common/downloadApp'
 import Banner from '@/components/common/banner'
+import PageLoading from '@/components/common/pageLoading'
 import filter from '@/filters'
 import LazyLoad from '@/components/widget/lazyLoad'
 import * as Model from '@/model/index'
@@ -163,39 +164,87 @@ export default {
       discountTicket,
       pageView: true,
       httpsImg: filter.httpsImg,
-      guessLikeList: []
+      list: [],
+      showLoading: true,
+      showLoading: false,
+      isScrollLoad: true,
+      pageIndex: 1,
+      pageTotal: 0
     }
   },
   components: {
-    DownloadApp,
     Banner,
-    LazyLoad
+    LazyLoad,
+    PageLoading
   },
   methods: {
     loadImg (event) {
       event.currentTarget.style.backgroundColor = '#fff'
     },
     getRecommendsList () {
+      const { pageIndex } = this
       Model.getRecommendsList({
         type: 'GET',
         data: {
-          pageIndex: 1,
+          pageIndex,
           pageSize: 10
         }
       }).then((result) => {
-        if (result){
-          this.guessLikeList = result.data
+        const data = result.data
+        if (result && data.length){
+          if (pageIndex > 1) {
+            setTimeout(() => {
+              this.showLoading = false
+              this.isScrollLoad = true
+              this.list = this.list.concat(data || [])
+            }, 500)
+          } else {
+            this.list = data || []
+          }
+          this.pageTotal = result.totalNum
+        } else {
+          this.showLoading = false
+          this.isScrollLoad = false
         }
       })
+    },
+    /**
+    * 获取猜你喜欢列表
+    */
+    scrollLoadList () {
+      const pageViewHeight = window.innerHeight 
+      const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+      const pageHeight = document.querySelector('.scroll-view-wrapper').offsetHeight
+      const realFunc = () => {
+        if (pageViewHeight + scrollTop >= pageHeight && this.list.length < this.pageTotal) {
+          this.showLoading = true
+          this.pageIndex += 1
+          this.getRecommendsList()
+        } else {
+          this.isScrollLoad = true
+        }
+      }
+      if (this.isScrollLoad) {
+        this.isScrollLoad = false
+        this.timer = requestAnimationFrame(realFunc)
+      }
     }
   },
   created () {
     this.getRecommendsList()
+    window.addEventListener('scroll', this.scrollLoadList, utils.isPassive() ? {passive: true} : false)
+  },
+  beforeDestroy () {
+    cancelAnimationFrame(this.timer)
+    window.removeEventListener('scroll', this.scrollLoadList, utils.isPassive() ? {passive: true} : false)
   }
 }
 </script>
 
-<style  lang="scss">
+<style lang="scss">
+  .home-pageLoading{
+    padding-top: .12rem;
+  }
   .home-advert{
     margin: .64rem .28rem .16rem;
     img{

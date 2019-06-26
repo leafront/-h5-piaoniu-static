@@ -136,7 +136,7 @@
         if (horizontalEle) {
           document.getElementById(this.default.horizontalEle).removeEventListener('scroll',this.scrollImg, utils.isPassive() ? {passive: true} : false)
         } 
-        window.removeEventListener('scroll',this.scrollImg, utils.isPassive() ? {passive: true} : false)
+        window.removeEventListener('scroll', this.scrollImg, utils.isPassive() ? {passive: true} : false)
       }
     },
     beforeDestroy () {

@@ -1,18 +1,13 @@
 import Vue from 'vue'
-import Application from './App'
+import App from './App'
 import router from './router'
 import store from './store'
-import utils from '@/widget/utils'
-import filter from '@/filters'
-import Toast from '@/components/toast'
-import Loading from '@/components/loading'
-import PageLoading from '@/components/pageLoading'
-import showModal from '@/components/showModal'
+import filter from '@/filter'
 
-Vue.use(showModal)
+Vue.use(ShowModal)
 Vue.use(Toast)
 Vue.use(Loading)
-Vue.use(PageLoading)
+Vue.use(DownloadApp)
 
 Object.keys(filter).forEach(key => {
   Vue.filter(key, filter[key])
@@ -31,7 +26,6 @@ router.beforeEach((to, from, next) => {
     to.matched.some(record => record.meta.requireLogin) &&
     process.env.NODE_ENV != 'develop'
   ) {
-
     next()
   } else {
     next()
@@ -51,5 +45,5 @@ router.afterEach((to, from) => {
 new Vue({
   router,
   store,
-  render: h => h(Application)
+  render: h => h(App)
 }).$mount('#app')

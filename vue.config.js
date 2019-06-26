@@ -20,7 +20,12 @@ module.exports = {
       "@/widget/utils": "utils",
       "@/widget/ajax": "ajax",
       "@/widget/validate": "validate",
-      "@/widget/store": "store"
+      "@/widget/store": "store",
+      "@/widget/request": "request",
+      "@/components/toast": "Toast",
+      "@/components/loading": "Loading",
+      "@/components/showModal": "ShowModal",
+      "@/components/downloadApp": "DownloadApp"
     }
     config.plugins.push(new HtmlWebpackPlugin({
       template: 'public/index.html',
