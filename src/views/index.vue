@@ -149,7 +149,7 @@
 
 import Banner from '@/components/common/banner'
 import PageLoading from '@/components/common/pageLoading'
-import filter from '@/filters'
+import filter from '@/filter'
 import LazyLoad from '@/components/widget/lazyLoad'
 import * as Model from '@/model/index'
 const { navList, bannerList, operating, hotTicket, discountTicket } = window.__NUXT__
