@@ -71,7 +71,13 @@
                   </div>  
                 </div>  
               </div>  
-            </div> 
+              <div class="home-ticket-item-more">
+                <div class="home-ticket-item-more-wrapper">
+                  <div class="home-ticket-item-dot"><span></span><span></span><span></span></div>
+                  <p class="c3">查看更多</p>
+                </div>  
+              </div>
+            </div>  
           </LazyLoad> 
         </div>   
         <div class="home-hot-title">
@@ -96,6 +102,12 @@
                     <strong>￥{{item.salePrice}}</strong>
                     <span class="c9">起</span>
                   </div>  
+                </div>  
+              </div>
+              <div class="home-ticket-item-more">
+                <div class="home-ticket-item-more-wrapper">
+                  <div class="home-ticket-item-dot"><span></span><span></span><span></span></div>
+                  <p class="c3">查看更多</p>
                 </div>  
               </div>
             </div> 
@@ -130,7 +142,7 @@
                 <div class="home-gress-item-price">
                   <strong>{{item.recommendContent.lowPrice}}</strong><span class="c9">元起</span>
                 </div>
-                <div class="home-gress-item-des">
+                <div class="home-gress-item-des" v-if="item.recommendContent.desc">
                   <p class="c9">{{item.recommendContent.desc}}</p>
                 </div>  
               </div>  
@@ -253,7 +265,6 @@ export default {
     }
   }
   .home-gress-item-des{
-    margin-top: .2rem;
     padding: .18rem 0;
     border-top: .01rem solid #e0e0e0;
   }
@@ -277,6 +288,7 @@ export default {
     }
   }
   .home-gress-item-price{
+    padding-bottom: .2rem;
     strong{
       font-size: .36rem;
       color: #ff2661;
@@ -346,6 +358,33 @@ export default {
       margin-left: .04rem;
     }
   }
+  .home-ticket-item-more{
+    width: 2.32rem;
+    flex-shrink: 0;
+    padding-right: .28rem;
+  }
+  .home-ticket-item-more-wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #eaebee;
+    height: 2.74rem;
+  }
+  .home-ticket-item-dot{
+    display: flex;
+    padding-bottom: .1rem;
+    span{
+      border-radius: 50%;
+      width: .18rem;
+      height: .18rem;
+      background: #bebfc4;
+      margin-right: .1rem;
+      &:last-child{
+        margin-right: 0;
+      }
+    }
+  }
   .home-ticket-wrapper{
     display: flex;
     overflow-x: auto;
@@ -355,7 +394,7 @@ export default {
     margin-top: -.48rem;
     -webkit-overflow-scrolling: touch;
     .home-ticket-item{
-      margin-right: 20px;
+      margin-right: .2rem;
       flex-shrink:0;
       margin-right: .2rem;
       width: 2.04rem;

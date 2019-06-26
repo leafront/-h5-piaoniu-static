@@ -1,6 +1,6 @@
 <template>
   <div class="ui-pageLoading"  v-show="showLoading">
-    <i></i><span class="font c9">努力加载中</span>
+    <i></i><span class="font-s c9">努力加载中</span>
   </div>
 </template>
 
