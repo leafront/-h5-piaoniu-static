@@ -13,14 +13,6 @@ Object.keys(filter).forEach(key => {
   Vue.filter(key, filter[key])
 })
 
-Vue.prototype.push = (url) => {
-  router.push(url)
-}
-
-Vue.prototype.replace = (url) => {
-  router.replace(url)
-}
-
 router.beforeEach((to, from, next) => {
   if (
     to.matched.some(record => record.meta.requireLogin) &&

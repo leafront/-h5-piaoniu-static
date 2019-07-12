@@ -56,78 +56,6 @@
         };
         flex();
       })(window,document);
-    </script>
-    <script type="text/javascript">
-      function isLocalStorageSupported() {
-        var testKey = 'test',
-          storage = window.sessionStorage;
-        try {
-          storage.setItem(testKey, 'testValue');
-          storage.removeItem(testKey);
-          return true;
-        } catch (error) {
-          return false;
-        }
-      };
-      function appendScript (res) {
-        var script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.appendChild(document.createTextNode(res));
-        document.head.appendChild(script);
-      };
-      function writeLizard () {
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', '<%=htmlWebpackPlugin.options.staticPath%>/static/lizard/index.js', false);
-        xhr.setRequestHeader("If-Modified-Since","0");
-        xhr.setRequestHeader("Cache-Control","no-cache");
-        xhr.onreadystatechange = () => {
-          if(xhr.readyState == 4){
-            if((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304){
-              var res = xhr.response;
-              if (isLocalStorageSupported()) {
-                if (!localStorage.getItem('/static/lizard/index.js')) {
-                  if (res && typeof res == 'string') {
-                    var cacheTimes = 30 * 24 * 60 * 60 * 1000;
-                    var result = {
-                      times: new Date().getTime() + cacheTimes,
-                      results: res
-                    };
-                    localStorage.setItem('/static/lizard/index.js', JSON.stringify(result));
-                    appendScript(res);
-                  } else {
-                    appendScript(res);
-                  }
-                } else {
-                  appendScript(res);
-                }
-              } else {
-                appendScript(res);
-              }
-            } else {
-              alert('服务器请求出错');
-            }
-          }
-        }
-        xhr.send(null)
-      };
-      function loadLizardScript () {
-        if (isLocalStorageSupported()) {
-          var results = localStorage.getItem('/static/lizard/index.js');
-          if (results && typeof results == 'string') {
-            var res = JSON.parse(results);
-            if (res && res.times > new Date().getTime()) {
-              appendScript(res.results);
-            } else {
-              writeLizard();
-            }
-          } else {
-            writeLizard();
-          }
-        } else {
-          writeLizard();
-        }
-      };
-      loadLizardScript();
       if ('serviceWorker' in navigator && location.protocol == 'https:') {
         navigator.serviceWorker.register('/serviceWorker.js?v=<%=htmlWebpackPlugin.options.getTime%>')
       }
@@ -138,14 +66,15 @@
         "getTime": <%=htmlWebpackPlugin.options.getTime%>
       }
     </script> 
-    <link rel="stylesheet" href="<%=process.env.VUE_APP_STATIC_PATH%>/static/css/main.css?v=<%=htmlWebpackPlugin.options.getTime%>">
+    <link rel="stylesheet" href="<%=htmlWebpackPlugin.options.staticPath%>/static/css/??reset.css?v=1.0.1,ui-color.css?v=1.0.0,ui-animate.css?v=1.0.0,ui-common.css?v=1.0.0,ui-font.css?v=1.0.0,ui-dialog.css?v=1.0.0,ui-toast.css?v=1.0.0,ui-layout.css,ui-download.css?v=1.0.0,ui-showLoading.css?v=1.0.0,main.css?v=1.1.4">
   </head>
   <body>
     <div id="app"></div>
     <!-- built files will be auto injected --> 
-    <script type="text/javascript" src="<%=htmlWebpackPlugin.options.staticPath%>/static/??polyfill/index.js?v=1.0.0,utils/index.js?v=1.0.0,ajax/index.js?v=1.0.0,store/index.js?v=1.0.0,request/index.js?v=1.0.0,validate/index.js?v=1.0.0"></script>
-    <script type="text/javascript" src="<%=htmlWebpackPlugin.options.staticPath%>/static/??loading/index.js?v=1.0.2,toast/index.js?v=1.0.0,showModal/index.js?v=1.0.0,downloadApp/index.js?v=1.0.0"></script>
-    <!-- <script type="text/javascript" src="<%= htmlWebpackPlugin.options.staticPath %>/static/vconsole/index.js"></script>
+    <script type="text/javascript" src="<%=htmlWebpackPlugin.options.staticPath%>/static/??vue/index.js?v=2.5.2,vue-router/index.js?v=3.0.1,vuex/index.js?v=3.0.1"></script>
+    <script type="text/javascript" src="<%=htmlWebpackPlugin.options.staticPath%>/static/??polyfill/index.js?v=1.0.0,utils/index.js?v=1.0.0,ajax/index.js?v=1.0.0,store/index.js?v=1.0.0,request/index.js?v=1.0.0,validate/index.js?v=1.0.0" crossorigin=anonymous></script>
+    <script type="text/javascript" src="<%=htmlWebpackPlugin.options.staticPath%>/static/??loading/index.js?v=1.0.5,toast/index.js?v=1.0.0,showModal/index.js?v=1.0.4,downloadApp/index.js?v=1.0.0" crossorigin=anonymous></script>
+<!--     <script type="text/javascript" src="<%= htmlWebpackPlugin.options.staticPath %>/static/vconsole/index.js"></script>
     <script>
       var vConsole = new VConsole()
     </script> -->

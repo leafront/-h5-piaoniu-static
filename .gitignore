@@ -3,6 +3,7 @@ node_modules
 /target
 release.sh
 serviceWorker.txt
+*.css
 
 # local env files
 .env.local

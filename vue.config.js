@@ -33,6 +33,7 @@ module.exports = {
       hostPath: process.env.VUE_APP_HOST_PATH,
       staticPath: process.env.VUE_APP_STATIC_PATH,
       __NUXT__: "<%-JSON.stringify(data)%>",
+      cssPath: process.env.VUE_APP_CSS_PATH,
       getTime: new Date().getTime(),
       inject: true,
       attributes: {

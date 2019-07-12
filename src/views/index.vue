@@ -20,7 +20,7 @@
       </div>
       <div class="home-nav">
         <div class="home-nav-item" v-for="(item, index) in navList">
-          <div class="home-nav-item-pic pic-lazyLoad">
+          <div class="home-nav-item-pic ui-lazyLoad-pic">
             <img v-if="index >= 4" :src="item.poster|httpsImg" @load="loadImg($event)"/>
             <img v-else :src="item.poster|httpsImg"/>
           </div>
@@ -33,7 +33,7 @@
             <h2 class="operating-item-title" :style="{'backgroundImage': 'url('+item.title+')'}"></h2>
             <p>{{item.subTitle}}</p>
           </div>  
-          <div class="operating-item-pic pic-lazyLoad" >
+          <div class="operating-item-pic ui-lazyLoad-pic" >
             <img :src="item.poster" @load="loadImg($event)"/>
           </div>  
         </div>   
@@ -55,10 +55,10 @@
           </div>  
         </div>  
         <div class="home-ticket" id="hot-ticket-scroll">
-          <LazyLoad :list="hotTicket" :options="{ele:'pic-lazyLoad', scrollEle: 'hot-ticket-scroll', render: 'server',horizontalEle: 'hot-ticket-wrapper'}">
+          <LazyLoad :list="hotTicket" :options="{ele:'ui-lazyLoad-pic', scrollEle: 'hot-ticket-scroll', render: 'server',horizontalEle: 'hot-ticket-wrapper'}">
             <div class="home-ticket-wrapper" id="hot-ticket-wrapper">
               <div class="home-ticket-item" v-for="item in hotTicket">
-                <div class="home-ticker-pic pic-lazyLoad"  :data-src="item.poster"></div>
+                <div class="home-ticker-pic ui-lazyLoad-pic"  :data-src="item.poster"></div>
                 <div class="home-ticket-watch">
                   <span class="cfff">{{ item.wantWatchNum > 10000 ? parseInt(item.wantWatchNum / 10000) + '万': item.wantWatchNum}}</span>
                   <i></i>
@@ -88,10 +88,10 @@
           </div>  
         </div> 
         <div class="home-ticket" id="discount-ticket-scroll"">
-          <LazyLoad :list="discountTicket" :options="{ele:'pic-lazyLoad', scrollEle: 'discount-ticket-scroll', render: 'server', horizontalEle: 'discount-ticket-wrapper'}">
+          <LazyLoad :list="discountTicket" :options="{ele:'ui-lazyLoad-pic', scrollEle: 'discount-ticket-scroll', render: 'server', horizontalEle: 'discount-ticket-wrapper'}">
             <div class="home-ticket-wrapper" id="discount-ticket-wrapper">
               <div class="home-ticket-item" v-for="item in discountTicket">
-                <div class="home-ticker-pic pic-lazyLoad" :data-src="item.poster"></div>  
+                <div class="home-ticker-pic ui-lazyLoad-pic" :data-src="item.poster"></div>  
                 <div class="home-ticket-watch">
                   <span class="cfff">{{ item.wantWatchNum > 10000 ? parseInt(item.wantWatchNum / 10000) + '万': item.wantWatchNum}}</span>
                   <i></i>
@@ -114,7 +114,7 @@
           </LazyLoad>   
         </div>
       </div> 
-      <div class="home-advert pic-lazyLoad">
+      <div class="home-advert ui-lazyLoad-pic">
         <img src="https://img.piaoniu.com/banner/b5cbe1866115f85b91f3eca09dcbe1d103d92a5b.jpg"/>
       </div> 
       <div class="home-advert-more">
@@ -125,10 +125,10 @@
         <div class="home-guess-like-title">
           <h3>猜你喜欢</h3>
         </div>
-        <LazyLoad :list="list" :options="{ele:'pic-lazyLoad', scrollEle: 'guress-like-scroll'}">
+        <LazyLoad :list="list" :options="{ele:'ui-lazyLoad-pic', scrollEle: 'guress-like-scroll'}">
           <div class="home-guress-list">
             <div class="home-guress-item" v-for="item in list" v-if="list && list.length">
-              <div class="home-guress-item-pic pic-lazyLoad" :data-src="item.recommendContent.poster"></div>  
+              <div class="home-guress-item-pic ui-lazyLoad-pic" :data-src="item.recommendContent.poster"></div>  
               <div class="home-guress-item-info ui-bottom-line">
                 <h3 class="c3 font-b ui-ellipsis">[上海]{{item.recommendContent.properName}}</h3>
                 <div class="home-guress-item-times c9 ui-ellipsis">
@@ -148,11 +148,11 @@
               </div>  
             </div>  
           </div>
-        </LazyLoad> 
-        <div class="home-pageLoading" v-show="showLoading">
-          <PageLoading :showLoading="showLoading"></PageLoading>   
-        </div>  
-      </div>    
+        </LazyLoad>  
+      </div>
+      <div class="home-pageLoading" v-show="showLoading">
+        <PageLoading :showLoading="showLoading"></PageLoading>   
+      </div>     
     </div>   
   </div>
 </template>
@@ -178,7 +178,6 @@ export default {
       httpsImg: filter.httpsImg,
       list: [],
       showLoading: true,
-      showLoading: false,
       isScrollLoad: true,
       pageIndex: 1,
       pageTotal: 0
@@ -206,7 +205,6 @@ export default {
         if (result && data.length){
           if (pageIndex > 1) {
             setTimeout(() => {
-              this.showLoading = false
               this.isScrollLoad = true
               this.list = this.list.concat(data || [])
             }, 500)
@@ -214,9 +212,9 @@ export default {
             this.list = data || []
           }
           this.pageTotal = result.totalNum
-        } else {
+        }
+        if (pageIndex == Math.ceil(result.totalNum / result.pageSize) || !data.length) {
           this.showLoading = false
-          this.isScrollLoad = false
         }
       })
     },
@@ -224,12 +222,12 @@ export default {
     * 获取猜你喜欢列表
     */
     scrollLoadList () {
-      const pageViewHeight = window.innerHeight 
+      const winHeight = window.innerHeight 
       const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
-      const pageHeight = document.querySelector('.scroll-view-wrapper').offsetHeight
+      const scrollViewHeight = document.querySelector('.scroll-view-wrapper').offsetHeight - 50
       const realFunc = () => {
-        if (pageViewHeight + scrollTop >= pageHeight && this.list.length < this.pageTotal) {
-          this.showLoading = true
+        console.log(this.list.length, this.pageTotal)
+        if (winHeight + scrollTop >= scrollViewHeight && this.list.length < this.pageTotal) {
           this.pageIndex += 1
           this.getRecommendsList()
         } else {
