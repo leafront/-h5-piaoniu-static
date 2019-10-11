@@ -1,5 +1,5 @@
 <template>
-  <div class="slideshow-wrap" :class="{'pic-lazyLoad': picLazyLoad}">
+  <div class="slideshow-wrap" :class="{'ui-lazyLoad-pic': picLazyLoad}">
     <slot name="banner"></slot>
     <slot name="dot"></slot>
   </div>

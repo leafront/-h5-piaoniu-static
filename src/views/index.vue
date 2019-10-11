@@ -204,10 +204,8 @@ export default {
         const data = result.data
         if (result && data.length){
           if (pageIndex > 1) {
-            setTimeout(() => {
-              this.isScrollLoad = true
-              this.list = this.list.concat(data || [])
-            }, 500)
+            this.isScrollLoad = true
+            this.list = this.list.concat(data || [])
           } else {
             this.list = data || []
           }
