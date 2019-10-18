@@ -1,5 +1,5 @@
 <template>  
-  <div class="pageView">
+  <div class="pageView" id="app">
     <div class="scroll-view-wrapper">
       <DownloadApp></DownloadApp>
       <div class="top-bar">
