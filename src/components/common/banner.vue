@@ -1,8 +1,8 @@
 <template>
   <swiper :list="list" :preventDefault="preventDefault" :index="index" :itemWidth="wrapperWidth" @toggleIndex="toggleIndex" :style="{'height':itemHeight}">
     <ul slot="banner" class="slideshow-item" :style="{'height':itemHeight}">
-      <li v-for="item in list" :style="{'width':itemWidth}" @click="pageAction(item.url)">
-        <img :src="item.poster" :style="{'width':itemWidth, 'height':itemHeight}">
+      <li v-for="item in list" :style="{'width':itemWidth + 'px'}" @click="pageAction(item.url)">
+        <img :src="item.poster" :style="{'width':itemWidth + 'px', 'height':itemHeight}">
       </li>
     </ul>
     <ul slot="dot" class="slideshow-dots">
@@ -13,14 +13,12 @@
 <script>
 
   import swiper from '@/components/widget/swiper.vue'
-  const itemWidth = document.documentElement.clientWidth * .92
-
   export default {
     data () {
       return {
         index: 1,
-        wrapperWidth: itemWidth ,
-        itemWidth: itemWidth + 'px',
+        wrapperWidth: 750 ,
+        itemWidth: 750,
         itemHeight: '2.08rem',
       }
     },
@@ -30,6 +28,13 @@
         default () {
           return []
         }
+      }
+    },
+    watch: {
+      list () {
+        const itemWidth = document.documentElement.clientWidth * .92
+        this.wrapperWidth = itemWidth
+        this.itemWidth = itemWidth
       }
     },
     components:{

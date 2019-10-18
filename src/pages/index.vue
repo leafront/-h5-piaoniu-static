@@ -1,15 +1,15 @@
-<template>
+<template>  
   <div class="pageView">
     <div class="scroll-view-wrapper">
       <DownloadApp></DownloadApp>
       <div class="top-bar">
         <div class="top-bar-city">
-          <span class="font">上海</span>
+          <span class="fs28">上海</span>
           <i></i>
         </div>  
         <div class="top-bar-search">
           <i></i>
-          <span class="c9 font-b">搜索明星、演出、场馆</span>
+          <span class="c9 fs30">搜索明星、演出、场馆</span>
         </div>
         <div class="top-bar-user">
           <i></i>
@@ -24,7 +24,7 @@
             <img v-if="index >= 4" :src="item.poster|httpsImg" @load="loadImg($event)"/>
             <img v-else :src="item.poster|httpsImg"/>
           </div>
-          <p class="c4 font-s">{{item.name}}</p>
+          <p class="c4 fs26">{{item.name}}</p>
         </div>  
       </div> 
       <div class="home-operating">
@@ -50,7 +50,7 @@
         <div class="home-hot-title">
           <h3>近期热门</h3>
           <div class="home-title-all">
-            <p class="font c9">全部</p>
+            <p class="fs24 c9">全部</p>
             <div class="ui-right-arrow"></div>
           </div>  
         </div>  
@@ -64,7 +64,7 @@
                   <i></i>
                 </div>  
                 <div class="home-ticket-info">
-                  <p class="font ui-ellipsis">{{item.properName}}</p>
+                  <p class="fs28 ui-ellipsis">{{item.properName}}</p>
                   <div class="home-ticket-price">
                     <strong>￥{{item.salePrice}}</strong>
                     <span class="c9">起</span>
@@ -83,7 +83,7 @@
         <div class="home-hot-title">
           <h3>折扣专区</h3>
           <div class="home-title-all">
-            <p class="font c9">全部</p>
+            <p class="fs28 c9">全部</p>
             <div class="ui-right-arrow"></div>
           </div>  
         </div> 
@@ -97,7 +97,7 @@
                   <i></i>
                 </div>  
                 <div class="home-ticket-info">
-                  <p class="font ui-ellipsis">{{item.properName}}</p>
+                  <p class="fs28 ui-ellipsis">{{item.properName}}</p>
                   <div class="home-ticket-price">
                     <strong>￥{{item.salePrice}}</strong>
                     <span class="c9">起</span>
@@ -118,7 +118,7 @@
         <img src="https://img.piaoniu.com/banner/b5cbe1866115f85b91f3eca09dcbe1d103d92a5b.jpg"/>
       </div> 
       <div class="home-advert-more">
-        <p class="font">更多精彩内容待你发现</p>
+        <p class="fs28">更多精彩内容待你发现</p>
         <div class="ui-right-arrow"></div>
       </div> 
       <div class="home-guess-like" id="guress-like-scroll">
@@ -130,7 +130,7 @@
             <div class="home-guress-item" v-for="item in list" v-if="list && list.length">
               <div class="home-guress-item-pic ui-lazyLoad-pic" :data-src="item.recommendContent.poster"></div>  
               <div class="home-guress-item-info ui-bottom-line">
-                <h3 class="c3 font-b ui-ellipsis">[上海]{{item.recommendContent.properName}}</h3>
+                <h3 class="c3 fs30 ui-ellipsis">[上海]{{item.recommendContent.properName}}</h3>
                 <div class="home-guress-item-times c9 ui-ellipsis">
                   <span>{{item.recommendContent.timeRange}}</span>
                   <strong>|</strong>
@@ -161,9 +161,8 @@
 
 import Banner from '@/components/common/banner'
 import PageLoading from '@/components/common/pageLoading'
-import filter from '@/filter'
-import LazyLoad from '@/components/widget/lazyLoad'
 import * as Model from '@/model/index'
+
 const { navList, bannerList, operating, hotTicket, discountTicket } = window.__NUXT__
 
 export default {
@@ -175,7 +174,6 @@ export default {
       hotTicket,
       discountTicket,
       pageView: true,
-      httpsImg: filter.httpsImg,
       list: [],
       showLoading: true,
       isScrollLoad: true,
@@ -185,7 +183,6 @@ export default {
   },
   components: {
     Banner,
-    LazyLoad,
     PageLoading
   },
   methods: {
